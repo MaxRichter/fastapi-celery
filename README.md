@@ -7,7 +7,7 @@
 <img src="assets/pgadmin-logo.png" alt="pgadmin-logo" height="60" /> 
 <img src="assets/nginx-logo.png" alt="nginx-logo" height="60" />
 <img src="assets/redis-logo.png" alt="redis-logo" height="60" />
-<img src="assets/rabbit-logo.png" alt="rabbit-logo" height="60" />
+<img src="assets/rabbit-logo.jpg" alt="rabbit-logo" height="60" />
 <img src="assets/celery-logo.png" alt="celery-logo" height="60" />
 <img src="assets/flower-logo.png" alt="flower-logo" height="60" />
 
