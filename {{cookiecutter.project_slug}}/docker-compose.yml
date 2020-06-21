@@ -5,7 +5,7 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - 8000:80
+      - {{cookiecutter.port}}:80
 
   redis:
     image: redis
@@ -18,9 +18,9 @@ services:
     image: postgres:12
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgrespassword
-      POSTGRES_DB: chatapp
+      POSTGRES_USER: {{cookiecutter.postgres_user}}
+      POSTGRES_PASSWORD: {{cookiecutter.postgres_password}}
+      POSTGRES_DB: {{cookiecutter.postgres_database}}
     ports:
       - '5432:5432'
     volumes:
@@ -29,9 +29,9 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: 1234@admin.com
-      PGADMIN_DEFAULT_PASSWORD: 1234
-      PGADMIN_LISTEN_PORT: 5050
+      PGADMIN_DEFAULT_EMAIL: {{cookiecutter.pgadmin_user}}
+      PGADMIN_DEFAULT_PASSWORD: {{cookiecutter.pgadmin_password}}
+      PGADMIN_LISTEN_PORT: {{cookiecutter.pgadmin_port}}
     depends_on:
       - postgres
     ports:
@@ -59,7 +59,7 @@ services:
     build:
       context: backend
       dockerfile: Dockerfile
-    command: celery flower --broker=amqp://admin:mypass@rabbit:5672 --broker_api=http://admin:mypass@rabbit:15672/api/ --port=5555
+    command: celery flower --broker=amqp://{{cookiecutter.rabbitmq_user}}:{{cookiecutter.rabbitmq_password}}@rabbit:{{cookiecutter.rabbitmq_port}} --broker_api=http://{{cookiecutter.rabbitmq_user}}:{{cookiecutter.rabbitmq_password}}@rabbit:{{cookiecutter.rabbitmq_admin_port}}/api/ --port=5555
     ports:
         - 5555:5555
     depends_on:
@@ -77,7 +77,7 @@ services:
       - ./backend:/app/:cached
     environment:
       PYTHONPATH: .
-      DATABASE_URL: 'postgresql://postgres:postgrespassword@postgres:5432/chatapp'
+      DATABASE_URL: 'postgresql://{{cookiecutter.postgres_user}}:{{cookiecutter.postgres_password}}@postgres:5432/{{cookiecutter.postgres_database}}'
     depends_on:
       - "postgres"
 

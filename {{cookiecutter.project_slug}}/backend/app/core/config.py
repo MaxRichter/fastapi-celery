@@ -1,9 +1,5 @@
-import os
+PROJECT_NAME = "{{cookiecutter.project_name}}"
 
-PROJECT_NAME = "Chatapp"
-
-SQLALCHEMY_DATABASE_URI = (
-    "postgresql://postgres:postgrespassword@postgres:5432/chatapp"
-)
+SQLALCHEMY_DATABASE_URI = "postgresql://{{cookiecutter.postgres_user}}:{{cookiecutter.postgres_password}}@postgres:5432/{{cookiecutter.postgres_database}}"
 
 API_V1_STR = "/api/v1"
