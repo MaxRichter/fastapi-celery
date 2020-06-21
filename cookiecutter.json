@@ -1,0 +1,18 @@
+{
+  "project_slug": "fastapi-celery-project",
+  "project_name": "{{ cookiecutter.project_slug }}",
+  "port": "8000",
+  "postgres_user": "postgres",
+  "postgres_password": "postgrespassword",
+  "postgres_database": "app",
+  "pgadmin_user": "1234@admin.com",
+  "pgadmin_password": "1234",
+  "pgadmin_port": "5050",
+  "rabbitmq_user": "admin",
+  "rabbitmq_password": "mypass",
+  "rabbitmq_port": "5672",
+  "rabbitmq_admin_port": "15672",
+  "superuser_email": "admin@{{cookiecutter.project_name}}.com",
+  "superuser_password": "appadminpassword",
+  "secret_key": "super_secret_to_replace"
+}

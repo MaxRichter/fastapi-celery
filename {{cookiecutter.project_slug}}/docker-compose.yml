@@ -1,0 +1,88 @@
+version: '3.7'
+services:
+  nginx:
+    image: nginx:1.17
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 8000:80
+
+  redis:
+    image: redis
+    volumes:
+      - "redis:/data"
+    ports:
+      - 6379:6379
+
+  postgres:
+    image: postgres:12
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: chatapp
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-data:/var/lib/postgresql/data:cached
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 1234@admin.com
+      PGADMIN_DEFAULT_PASSWORD: 1234
+      PGADMIN_LISTEN_PORT: 5050
+    depends_on:
+      - postgres
+    ports:
+      - "5050:5050"
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    restart: always
+
+  rabbit:
+    hostname: rabbit
+    image: rabbitmq:3-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=mypass
+    ports:
+      - "5673:15672"
+
+  worker:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    command: celery worker -A app.tasks --loglevel=DEBUG -c 1
+
+  flower:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    command: celery flower --broker=amqp://admin:mypass@rabbit:5672 --broker_api=http://admin:mypass@rabbit:15672/api/ --port=5555
+    ports:
+        - 5555:5555
+    depends_on:
+      - "redis"
+      - "rabbit"
+      - "worker"
+
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    command: python app/main.py
+    tty: true
+    volumes:
+      - ./backend:/app/:cached
+    environment:
+      PYTHONPATH: .
+      DATABASE_URL: 'postgresql://postgres:postgrespassword@postgres:5432/chatapp'
+    depends_on:
+      - "postgres"
+
+
+volumes:
+  db-data:
+  pgadmin:
+  redis:

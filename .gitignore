@@ -1,0 +1,31 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# virtualenv
+.venv
+venv/
+ENV/
+
+# Editors
+/.idea/
+
+# Logs
+logs/
+
+# Redis
+redis-stable/
+
+# OSX
+.DS_Store
+
+# Celery
+project/celerybeat-schedule.bak
+project/celerybeat-schedule.dat
+project/celerybeat-schedule.dir
+project/celerybeat-schedule
+project/celerybeat.pid
+
+# Pytest
+tests/.pytest_cache/
