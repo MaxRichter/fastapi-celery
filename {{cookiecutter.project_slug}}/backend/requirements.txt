@@ -18,5 +18,5 @@ passlib==1.7.2
 bcrypt==3.1.7
 sqlalchemy-utils==0.36.6
 python-multipart==0.0.5
-pyjwt==1.7.1
+pyjwt==2.4.0
 email_validator==1.1.1
